@@ -12,5 +12,20 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
+    coverage: {
+      provider: 'v8', // or 'istanbul'
+      reporter: ['text', 'json', 'html', 'lcov'],
+      reportsDirectory: './coverage',
+      exclude: [
+        'node_modules/',
+        'tests/setup.ts',
+        'cypress/',
+        '.astro/',
+        '**/*.mjs',
+        'cypress.config.js',
+        'vitest.config.ts',
+        'functions/',
+      ],
+    },
   },
 });
