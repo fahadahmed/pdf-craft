@@ -28,6 +28,8 @@ export default defineConfig({
         '**/*.js',
         '**/index.ts',
         '**/*.test.tsx',
+        '**/layouts/*.astro',
+        '**/pages/*.astro',
       ],
     },
   },
