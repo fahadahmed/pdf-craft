@@ -27,6 +27,7 @@ export default defineConfig({
         'functions/',
         '**/*.js',
         '**/index.ts',
+        '**/*.test.tsx',
       ],
     },
   },
