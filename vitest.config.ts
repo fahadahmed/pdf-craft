@@ -25,6 +25,8 @@ export default defineConfig({
         'cypress.config.js',
         'vitest.config.ts',
         'functions/',
+        '**/*.js',
+        '**/index.ts',
       ],
     },
   },
