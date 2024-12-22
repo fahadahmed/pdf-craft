@@ -34,11 +34,6 @@
     "rules": "storage.rules"
   },
   "emulators": {
-    "apphosting": {
-      "port": 5002,
-      "rootDirectory": "./",
-      "startCommand": "pnpm run dev"
-    },
     "auth": {
       "port": 9099
     },
