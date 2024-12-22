@@ -1,5 +1,5 @@
 it('titles are correct', () => {
-  const page = cy.visit('http://localhost:4321');
+  const page = cy.visit('http://localhost:4321')
 
-  page.get('title').should('have.text', 'Astro Basics');
-});
+  page.get('title').should('have.text', 'Astro Basics')
+})
