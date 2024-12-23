@@ -24,7 +24,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Create serviceAccountKey.json
-        run: echo "${{ secrets.FIREBASE_SERVICEACCOUNT_KEY }}" > src/serviceAccountKey.json
+        run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PDF_CRAFT }}" > src/serviceAccountKey.json
       - run: pnpm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
