@@ -1,4 +1,6 @@
 import { initializeApp, getApps, getApp } from 'firebase/app'
+import { getAuth, connectAuthEmulator } from 'firebase/auth'
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
@@ -10,4 +12,13 @@ const firebaseConfig = {
   measurementId: import.meta.env.PUBLIC_FIREBASE_MEASUREMENT_ID,
 }
 
-export const app = !getApps.length ? initializeApp(firebaseConfig) : getApp()
+const app = !getApps.length ? initializeApp(firebaseConfig) : getApp()
+
+if (import.meta.env.MODE === 'development') {
+  const auth = getAuth(app)
+  connectAuthEmulator(auth, 'http://localhost:9099')
+
+  const firestore = getFirestore(app)
+  connectFirestoreEmulator(firestore, 'localhost', 8080)
+}
+export { app }
