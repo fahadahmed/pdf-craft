@@ -24,3 +24,8 @@ pnpm-debug.log*
 .idea/
 
 coverage/
+
+firebase-debug.log
+firestore-debug.log
+
+serviceAccountKey.json
