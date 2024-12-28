@@ -1,7 +1,7 @@
 import { initializeApp, getApps, getApp } from 'firebase/app'
 // import { getAuth, connectAuthEmulator } from 'firebase/auth'
 // import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
-import { getPerformance } from 'firebase/performance'
+// import { getPerformance } from 'firebase/performance'
 
 const firebaseConfig = {
   apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
@@ -15,7 +15,7 @@ const firebaseConfig = {
 
 const app = !getApps.length ? initializeApp(firebaseConfig) : getApp()
 
-export const perf = getPerformance(app)
+// export const perf = getPerformance(app)
 
 // TODO: Fix the firebase emulation
 
