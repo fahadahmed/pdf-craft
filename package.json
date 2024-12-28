@@ -16,6 +16,7 @@
     "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx,astro}\" --fix"
   },
   "dependencies": {
+    "@astrojs/node": "^9.0.0",
     "@astrojs/react": "^4.1.2",
     "@google-cloud/functions-framework": "^3.4.3",
     "@types/react": "^19.0.2",
