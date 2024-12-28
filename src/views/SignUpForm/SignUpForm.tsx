@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { actions } from 'astro:actions'
 
-export default function SignUpForm() {
+function SignUpForm() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -59,3 +59,5 @@ export default function SignUpForm() {
     </form>
   )
 }
+
+export default SignUpForm
