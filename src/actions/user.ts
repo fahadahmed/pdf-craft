@@ -10,8 +10,6 @@ const SignUpSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters'),
 })
 
-export type SignupInput = z.infer<typeof SignUpSchema>
-
 export const user = {
   createUser: defineAction({
     accept: 'form',
