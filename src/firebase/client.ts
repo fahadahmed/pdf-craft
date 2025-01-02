@@ -1,7 +1,7 @@
 import { initializeApp, getApps, getApp } from 'firebase/app'
-import { getAuth, connectAuthEmulator } from 'firebase/auth'
-import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
-import { getPerformance } from 'firebase/performance'
+// import { getAuth, connectAuthEmulator } from 'firebase/auth'
+// import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
+// import { getPerformance } from 'firebase/performance'
 
 const firebaseConfig = {
   apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
@@ -15,13 +15,15 @@ const firebaseConfig = {
 
 const app = !getApps.length ? initializeApp(firebaseConfig) : getApp()
 
-export const perf = getPerformance(app)
+// export const perf = getPerformance(app)
 
-if (import.meta.env.MODE === 'development') {
-  const auth = getAuth(app)
-  connectAuthEmulator(auth, 'http://localhost:9099')
+// TODO: Fix the firebase emulation
 
-  const firestore = getFirestore(app)
-  connectFirestoreEmulator(firestore, 'localhost', 8080)
-}
+// if (import.meta.env.MODE === 'development') {
+//   const auth = getAuth(app)
+//   connectAuthEmulator(auth, 'http://localhost:9099')
+
+//   const firestore = getFirestore(app)
+//   connectFirestoreEmulator(firestore, 'localhost', 8080)
+// }
 export { app }

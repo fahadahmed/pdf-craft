@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro'
+
+if (!Astro.cookies.has('__session')) {
+  return Astro.redirect('/signin')
+}
+---
+
+<Layout>
+  <h1>Dashboard Page</h1>
+</Layout>
