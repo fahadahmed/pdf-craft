@@ -13,5 +13,9 @@ export default defineConfig({
   integrations: [react()],
   vite: {
     plugins: [vanillaExtractPlugin()],
+    optimizeDeps: {
+      noDiscovery: true, // Disables dependency discovery
+      include: [], // Ensure this is empty or undefined
+    },
   },
 })
