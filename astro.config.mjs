@@ -17,5 +17,9 @@ export default defineConfig({
       noDiscovery: true, // Disables dependency discovery
       include: [], // Ensure this is empty or undefined
     },
+    ssr: {
+      target: 'node',
+      noExternal: ['react', 'react-dom'],
+    },
   },
 })
