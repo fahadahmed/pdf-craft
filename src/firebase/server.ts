@@ -1,4 +1,5 @@
-import { initializeApp, cert, getApps } from 'firebase-admin/app'
+import { initializeApp, getApps } from 'firebase-admin/app'
+import admin from 'firebase-admin'
 import type { ServiceAccount } from 'firebase-admin'
 import serviceAccount from '../serviceAccountKey.json' assert { type: 'json' }
 
@@ -6,7 +7,7 @@ const activeApps = getApps()
 
 const initApp = () => {
   return initializeApp({
-    credential: cert(serviceAccount as ServiceAccount),
+    credential: admin.credential.cert(serviceAccount as ServiceAccount),
   })
 }
 
