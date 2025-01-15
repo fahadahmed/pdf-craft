@@ -26,6 +26,8 @@ jobs:
       - name: Create serviceAccountKey.json
         run: echo "${{ secrets.FIREBASE_SERVICEACCOUNT_KEY }}" | base64 -d > src/serviceAccountKey.json
       - run: pnpm run build
+      - name: Check Service Account
+        run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PDF_CRAFT }}" | head -c 50
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
