@@ -22,7 +22,7 @@ describe('SignInForm', () => {
 
   it('displays an error message when sign in fails', async () => {
     // eslint-disable-next-line prettier/prettier
-    (signInWithEmailAndPassword as Mock).mockRejectedValue(new Error('Failed to sign in'))
+    ;(signInWithEmailAndPassword as Mock).mockRejectedValue(new Error('Failed to sign in'))
 
     render(<SignInForm />)
 
