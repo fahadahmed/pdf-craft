@@ -29,5 +29,3 @@ firebase-debug.log
 firestore-debug.log
 
 serviceAccountKey.json
-
-.firebase/
