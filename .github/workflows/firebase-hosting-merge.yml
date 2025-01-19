@@ -4,31 +4,23 @@
 name: Deploy to Firebase Hosting on merge
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches:
+      - main
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 7
-      - run: pnpm install --no-frozen-lockfile
-      - run: pnpm run coverage
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      - name: Create serviceAccountKey.json
-        run: echo "${{ secrets.FIREBASE_SERVICEACCOUNT_KEY }}" | base64 -d > src/serviceAccountKey.json
+      - run: npm ci
       - run: pnpm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PDF_CRAFT }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PDF_CRAFT_DEV }}
           channelId: live
-          projectId: pdf-craft
+          projectId: pdf-craft-dev
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
+    defaults:
+      run:
+        working-directory: app
