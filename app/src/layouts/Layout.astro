@@ -1,20 +1,5 @@
 ---
 import '../styles/global.css'
-
-import { getAuth } from 'firebase-admin/auth'
-import { app } from '../firebase/server'
-
-const auth = getAuth(app)
-if (Astro.cookies.has('__session')) {
-  const sessionCookie = Astro.cookies.get('__session')?.value
-  let decodedCookie
-  if (sessionCookie) {
-    decodedCookie = await auth.verifySessionCookie(sessionCookie)
-  }
-  if (decodedCookie) {
-    return Astro.redirect('/dashboard')
-  }
-}
 ---
 
 <!doctype html>
