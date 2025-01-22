@@ -18,7 +18,7 @@ jobs:
           version: 7
       - run: pnpm install --no-frozen-lockfile --strict-peer-dependencies=false
       - name: Create serviceAccountKey.json
-        run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PDF_CRAFT_DEV }}" > "src/serviceAccountKey.json"
+        run: echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_PDF_CRAFT_DEV }}" | base64 -d > "src/serviceAccountKey.json"
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
