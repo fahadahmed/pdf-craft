@@ -27,6 +27,7 @@ coverage/
 
 firebase-debug.log
 firestore-debug.log
+pubsub-debug.log
 .firebase/
 
 serviceAccountKey.json
