@@ -10,6 +10,11 @@ export default defineConfig({
     mode: 'middleware',
   }),
   vite: {
-    plugins: [vanillaExtractPlugin()],
+    plugins: [
+      vanillaExtractPlugin({
+        emitCssInSsr: true,
+        minifyCss: true,
+      }),
+    ],
   },
 });
