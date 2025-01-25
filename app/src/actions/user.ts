@@ -10,6 +10,10 @@ const SignUpSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
+const VerifyUserSchema = z.object({
+  idToken: z.string(),
+});
+
 export const user = {
   createUser: defineAction({
     accept: 'form',
@@ -61,6 +65,40 @@ export const user = {
           error: 'Issue creating a new user',
         };
       }
+    },
+  }),
+
+  verifyUser: defineAction({
+    accept: 'form',
+    input: VerifyUserSchema,
+    handler: async (input, context) => {
+      const { idToken } = input;
+      const auth = getAuth(app);
+      try {
+        const decodedToken = await auth.verifyIdToken(idToken);
+        try {
+          await auth.verifyIdToken(idToken);
+        } catch (error) {
+          return new Response('Invalid Token', { status: 401 });
+        }
+        // Create and set session cookie
+        const fiveDays = 60 * 60 * 24 * 5 * 1000;
+        const sessionCookie = await auth.createSessionCookie(idToken, {
+          expiresIn: fiveDays,
+        });
+
+        context.cookies.set('__session', sessionCookie, {
+          path: '/',
+        });
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+        }
+      }
+      return {
+        success: true,
+        redirected: true,
+        url: '/dashboard',
+      };
     },
   }),
 };
