@@ -1,0 +1,12 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Dashboard as DashboardView } from '../components'
+
+if (!Astro.cookies.has('__session')) {
+  return Astro.redirect('/signin')
+}
+---
+
+<Layout>
+  <DashboardView />
+</Layout>

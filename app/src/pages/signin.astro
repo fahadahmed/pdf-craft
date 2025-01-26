@@ -1,0 +1,25 @@
+---
+import Layout from "../layouts/Layout.astro"
+import { getAuth } from 'firebase-admin/auth'
+import { app } from '../firebase/server'
+import { SigninForm } from '../components'
+
+const auth = getAuth(app)
+if (Astro.cookies.has('__session')) {
+  const sessionCookie = Astro.cookies.get('__session')?.value
+  let decodedCookie
+  if (sessionCookie) {
+    decodedCookie = await auth.verifySessionCookie(sessionCookie)
+  }
+  if (decodedCookie) {
+    return Astro.redirect('/dashboard')
+  }
+}
+---
+<Layout>
+  <div class="container">
+    <h2>Sign-in to PDF-Craft</h2>
+    <p>New to the app? <a href="/signup">Sign-up for an account</a></p>
+    <SigninForm client:load />
+  </div>
+</Layout>
