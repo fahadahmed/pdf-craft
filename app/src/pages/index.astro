@@ -1,12 +1,24 @@
 ---
 console.log('This runs in your terminal, not the browser')
 import Layout from "../layouts/Layout.astro"
+import { Button } from "../components";
 ---
 <Layout>
   <div class="container">
     <h1>PDF Craft</h1>
-    <p>A complete online PDF management tool</p>
-    <a href="/signin">Sign-in</a>
-    <a href="/signup">Sign-up</a>
+    <h2>A complete online PDF management tool</h2>
+    <div class="button-container">
+      <Button type="linkButton" text="Sign-in" url="/signin" />
+      <Button type="linkButton" text="Sign-up" url="/signup" />
+    </div>
   </div>
 </Layout>
+
+<style>
+  .button-container {
+    margin: 2em 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+</style>
