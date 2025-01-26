@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { actions } from 'astro:actions'
+import { Button, Input } from '../../../components'
 
 export default function SignupForm() {
   const [name, setName] = useState('');
@@ -29,33 +30,12 @@ export default function SignupForm() {
     }
   }
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="form">
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <label htmlFor="name">Name</label>
-      <input
-        type="text"
-        name="name"
-        id="name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <label htmlFor="email">Email</label>
-      <input
-        type="text"
-        name="email"
-        id="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <label htmlFor="password">Password</label>
-      <input
-        type="password"
-        name="password"
-        id="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Sign Up</button>
+      <Input type="text" name="name" id="name" labelText='Name' value={name} setValue={setName} />
+      <Input type="email" name="email" id="email" labelText='Email' value={email} setValue={setEmail} />
+      <Input type="password" name="password" id="password" labelText='Password' value={password} setValue={setPassword} />
+      <Button type="submit" text="Register" kind="primary" />
     </form>
   )
 }
