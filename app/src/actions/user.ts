@@ -101,4 +101,16 @@ export const user = {
       };
     },
   }),
+
+  signOutUser: defineAction({
+    accept: 'form',
+    handler: async (_input, context) => {
+      context.cookies.delete('__session');
+      return {
+        success: true,
+        redirected: true,
+        url: '/',
+      };
+    },
+  }),
 };

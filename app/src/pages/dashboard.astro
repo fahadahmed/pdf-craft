@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Dashboard as DashboardView } from '../components'
 
 if (!Astro.cookies.has('__session')) {
   return Astro.redirect('/signin')
@@ -7,5 +8,5 @@ if (!Astro.cookies.has('__session')) {
 ---
 
 <Layout>
-  <h1>PDF-Craft Dashboard</h1>
+  <DashboardView />
 </Layout>
