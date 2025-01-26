@@ -15,8 +15,6 @@ if (Astro.cookies.has('__session')) {
     return Astro.redirect('/dashboard')
   }
 }
-
-console.log(import.meta.env.PUBLIC_FIREBASE_API_KEY)
 ---
 <Layout>
   <h2>Sign-in to PDF-Craft</h2>
