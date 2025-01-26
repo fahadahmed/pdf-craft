@@ -20,7 +20,9 @@
     "firebase": "^11.2.0",
     "firebase-admin": "^12.6.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-beautiful-dnd": "^13.1.1",
+    "react-dom": "^19.0.0",
+    "react-dropzone-esm": "^15.2.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.7",
