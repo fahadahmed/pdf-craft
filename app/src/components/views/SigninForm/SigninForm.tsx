@@ -3,6 +3,8 @@ import { useState } from 'react'
 import { actions } from 'astro:actions'
 import { getAuth, inMemoryPersistence, signInWithEmailAndPassword } from 'firebase/auth'
 import { app } from '../../../firebase/client'
+import { Button } from '../../../components'
+import '../../../styles/form.css'
 
 export default function SigninForm() {
   const [email, setEmail] = useState('');
@@ -31,25 +33,29 @@ export default function SigninForm() {
 
   }
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="form">
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <label htmlFor="email">Email</label>
-      <input
-        type="email"
-        name="email"
-        id="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <label htmlFor="password">Password</label>
-      <input
-        type="password"
-        name="password"
-        id="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Login</button>
+      <div>
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      <Button type="submit" text="Login" kind="primary" />
     </form>
   )
 }

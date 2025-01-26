@@ -1,0 +1,6 @@
+.form {
+  display: grid;
+  grid-template-columns: 1fr;
+  text-align: left;
+  gap: 0.5em;
+}
