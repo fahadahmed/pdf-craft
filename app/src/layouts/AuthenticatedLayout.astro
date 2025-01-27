@@ -1,12 +1,15 @@
 ---
 import Layout from "./Layout.astro";
+import { Header } from '../components'
 import '../styles/layout.css'
 ---
 
 <Layout>
   <div class="authenticated-container">
-    <div>Header</div>
-    <slot/>
-    <div>Footer</div>
+    <Header />
+    <div class="app-container">
+      <slot/>
+      <div>Footer</div>
+    </div>
   </div>
 </Layout>
