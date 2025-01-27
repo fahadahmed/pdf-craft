@@ -1,0 +1,13 @@
+---
+import AuthenticatedLayout from "../layouts/AuthenticatedLayout.astro";
+
+if (!Astro.cookies.has('__session')) {
+  return Astro.redirect('/signin')
+}
+---
+
+<AuthenticatedLayout>
+  <div>
+    <h1>Merge PDF Files</h1>
+  </div>
+</AuthenticatedLayout>

@@ -4,8 +4,8 @@ import './header.css'
 export default function Header() {
   return (
     <div className="header">
-      <div>PDF-Craft</div>
-      <form action={actions.user.signOutUser} method="post">
+      <div><strong>PDF-Craft</strong></div>
+      <form action={actions.user.signOutUser}>
         <button type="submit">Logout</button>
       </form>
     </div>
