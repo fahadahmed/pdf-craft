@@ -1,0 +1,12 @@
+---
+import Layout from "./Layout.astro";
+import '../styles/layout.css'
+---
+
+<Layout>
+  <div class="authenticated-container">
+    <div>Header</div>
+    <slot/>
+    <div>Footer</div>
+  </div>
+</Layout>
