@@ -41,7 +41,6 @@ export default function MultiPdfUploader() {
     useSensor(PointerSensor),
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
   )
-
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
     if (active.id !== over?.id) {
@@ -50,6 +49,10 @@ export default function MultiPdfUploader() {
       setUploadedFiles((items) => arrayMove(items, oldIndex, newIndex))
     }
   }
+
+  const handleDelete = (fileName: string) => {
+    setUploadedFiles((files) => files.filter((file) => file.name !== fileName));
+  };
 
   console.log(uploadedFiles)
   return (
@@ -76,8 +79,15 @@ export default function MultiPdfUploader() {
                     border: '1px solid #ccc',
                     borderRadius: '4px',
                     background: '#f9f9f9',
+                    display: 'flex',
+                    justifyContent: 'space-between'
                   }}
-                >{file.name}</div>
+                >
+                  {file.name}
+                  <button onClick={() => handleDelete(file.name)} style={{ marginLeft: '10px', cursor: 'pointer' }}>
+                    ❌
+                  </button>
+                </div>
               </SortableItem>
             ))}
           </SortableContext>
