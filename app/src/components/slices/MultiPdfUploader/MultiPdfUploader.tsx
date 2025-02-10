@@ -2,8 +2,9 @@
 import { useState } from "react"
 import { useDropzone } from "react-dropzone-esm"
 import { DndContext, useSensors, useSensor, PointerSensor, closestCenter } from '@dnd-kit/core'
-import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable } from '@dnd-kit/sortable'
+import { arrayMove, SortableContext, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { actions } from 'astro:actions'
 import './multiPdfUploader.css'
 
 type SortableItemProps = {
@@ -54,6 +55,24 @@ export default function MultiPdfUploader() {
     setUploadedFiles((files) => files.filter((file) => file.name !== fileName));
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData();
+    uploadedFiles.forEach((file) => {
+      formData.append('files', file);
+    });
+
+    try {
+      console.log(Array.from(formData.values()))
+      const response = await actions.operations.mergePdfs(formData)
+      console.log(response)
+      if (response.data) {
+        console.log(response.data)
+      }
+    } catch (err) {
+      console.error('Error merging PDFs:', err);
+    }
+  }
   console.log(uploadedFiles)
   return (
     <div className="multi-pdf-uploader">
@@ -93,6 +112,11 @@ export default function MultiPdfUploader() {
           </SortableContext>
         </DndContext>
       </div>
+      {uploadedFiles.length > 0 && (
+        <form onSubmit={handleSubmit}>
+          <button type='submit'>Merge PDFs</button>
+        </form>
+      )}
     </div>
   )
 }
