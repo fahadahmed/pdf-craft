@@ -76,6 +76,7 @@ export const user = {
       const auth = getAuth(app);
       try {
         const decodedToken = await auth.verifyIdToken(idToken);
+        console.log(decodedToken);
         try {
           await auth.verifyIdToken(idToken);
         } catch (error) {
@@ -89,6 +90,10 @@ export const user = {
 
         context.cookies.set('__session', sessionCookie, {
           path: '/',
+          httpOnly: true,
+          secure: import.meta.env.NODE_ENV === 'production',
+          sameSite: 'strict',
+          maxAge: fiveDays,
         });
       } catch (error) {
         if (error instanceof z.ZodError) {

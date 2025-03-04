@@ -16,8 +16,8 @@ export const operations = {
         formData.append('files', file);
       });
       const cookieHeader = context.request.headers.get('cookie') || '';
-      const functionUrl =
-        'http://127.0.0.1:5001/pdf-craft-dev/us-central1/mergePdfs';
+      console.log(cookieHeader);
+      const functionUrl = import.meta.env.PUBLIC_FB_FUNC_MERGE_PDFS_URL;
       try {
         const response = await fetch(functionUrl, {
           method: 'POST',

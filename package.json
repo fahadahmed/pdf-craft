@@ -8,5 +8,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "pnpm": {
+    "overrides": {
+      "@google-cloud/storage": "7.14.0"
+    }
+  }
 }

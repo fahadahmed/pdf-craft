@@ -20,6 +20,6 @@ if (Astro.cookies.has('__session')) {
   <div class="container">
     <h2>Sign-in to PDF-Craft</h2>
     <p>New to the app? <a href="/signup">Sign-up for an account</a></p>
-    <SigninForm client:load />
+    <SigninForm client:only />
   </div>
 </Layout>

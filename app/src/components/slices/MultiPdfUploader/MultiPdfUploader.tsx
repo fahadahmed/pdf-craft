@@ -73,7 +73,6 @@ export default function MultiPdfUploader() {
       console.error('Error merging PDFs:', err);
     }
   }
-  console.log(uploadedFiles)
   return (
     <div className="multi-pdf-uploader">
       {uploadedFiles.length < 5 ? (
