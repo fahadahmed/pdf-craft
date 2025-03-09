@@ -16,7 +16,6 @@ export const operations = {
         formData.append('files', file);
       });
       const cookieHeader = context.request.headers.get('cookie') || '';
-      console.log(cookieHeader);
       const functionUrl = import.meta.env.PUBLIC_FB_FUNC_MERGE_PDFS_URL;
       try {
         const response = await fetch(functionUrl, {
@@ -27,11 +26,8 @@ export const operations = {
           body: formData,
         });
 
-        const data = await response.json();
-        return {
-          success: true,
-          data: data,
-        };
+        const responseData = await response.json();
+        return responseData;
       } catch (error) {
         console.log(error);
         if (error instanceof z.ZodError) {

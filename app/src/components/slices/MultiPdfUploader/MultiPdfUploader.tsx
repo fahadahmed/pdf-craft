@@ -67,7 +67,7 @@ export default function MultiPdfUploader() {
       const response = await actions.operations.mergePdfs(formData)
       console.log(response)
       if (response.data) {
-        console.log(response.data)
+        console.log('Merge PDF operations response', response.data)
       }
     } catch (err) {
       console.error('Error merging PDFs:', err);
