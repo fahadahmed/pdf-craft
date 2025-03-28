@@ -28,17 +28,11 @@
     "functions": {
       "port": 5001
     },
-    "firestore": {
-      "port": 8080
-    },
     "hosting": {
       "port": 5010
     },
     "pubsub": {
       "port": 8085
-    },
-    "storage": {
-      "port": 9199
     },
     "ui": {
       "enabled": true
