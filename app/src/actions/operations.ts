@@ -36,6 +36,13 @@ export const operations = {
         );
         const userId = decodedToken.uid;
 
+        // Create a new Firestore doc ID for the file
+        const fileId = firestore
+          .collection('users')
+          .doc(userId)
+          .collection('files')
+          .doc().id;
+
         const mergedPdf = await PDFDocument.create();
         for (const pdfFile of files) {
           const pdfBytes = await pdfFile.arrayBuffer();
@@ -63,13 +70,19 @@ export const operations = {
           expires: '03-01-2030',
         });
 
-        // await firestore.collection('users').doc(userId).set(
-        //   {
-        //     mergedPdfUrl: url,
-        //     updatedAt: FieldValue.serverTimestamp(),
-        //   },
-        //   { merge: true }
-        // );
+        // Save file metadata inside Firestore under user's `files` collection
+        await firestore
+          .collection('users')
+          .doc(userId)
+          .collection('files')
+          .doc(fileId)
+          .set({
+            fileId,
+            fileName: mergedFileName,
+            fileUrl: url,
+            createdAt: FieldValue.serverTimestamp(),
+            updatedAt: FieldValue.serverTimestamp(),
+          });
 
         return {
           success: true,
