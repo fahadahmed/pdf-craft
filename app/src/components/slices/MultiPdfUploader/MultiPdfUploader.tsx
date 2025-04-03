@@ -27,7 +27,9 @@ function SortableItem({ id, children }: SortableItemProps) {
 }
 
 export default function MultiPdfUploader() {
-  const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
+  const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
+  const [isMerging, setIsMerging] = useState(false);
+  const [downloadLink, setDownloadLink] = useState<string | null>(null);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -57,6 +59,7 @@ export default function MultiPdfUploader() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsMerging(true);
     const formData = new FormData();
     uploadedFiles.forEach((file) => {
       formData.append('files', file);
@@ -68,53 +71,66 @@ export default function MultiPdfUploader() {
       console.log(response)
       if (response.data) {
         console.log('Merge PDF operations response', response.data)
+        setDownloadLink(response.data.data.fileUrl);
       }
     } catch (err) {
       console.error('Error merging PDFs:', err);
+    } finally {
+      setIsMerging(false);
     }
   }
   return (
     <div className="multi-pdf-uploader">
-      {uploadedFiles.length < 5 ? (
-        <div {...getRootProps()} className="dropzone-container">
-          <input {...getInputProps()} />
-          <p>Drag and drop files here or click to browse.</p>
+      {downloadLink ? (
+        <div>
+          <a href={downloadLink} download>Download Merged PDF</a>
         </div>
-      ) : <div>You can merge a maximum of 5 files at a time.</div>}
-      <div>
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext items={uploadedFiles.map((file) => file.name)}>
-            {uploadedFiles.map((file) => (
-              <SortableItem key={file.name} id={file.name}>
-                <div
-                  style={{
-                    padding: '10px',
-                    margin: '5px 0',
-                    border: '1px solid #ccc',
-                    borderRadius: '4px',
-                    background: '#f9f9f9',
-                    display: 'flex',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  {file.name}
-                  <button onClick={() => handleDelete(file.name)} style={{ marginLeft: '10px', cursor: 'pointer' }}>
-                    ❌
-                  </button>
-                </div>
-              </SortableItem>
-            ))}
-          </SortableContext>
-        </DndContext>
-      </div>
-      {uploadedFiles.length > 0 && (
-        <form onSubmit={handleSubmit}>
-          <button type='submit'>Merge PDFs</button>
-        </form>
+      ) : (
+        <>
+          {uploadedFiles.length < 5 ? (
+            <div {...getRootProps()} className="dropzone-container">
+              <input {...getInputProps()} />
+              <p>Drag and drop files here or click to browse.</p>
+            </div>
+          ) : <div>You can merge a maximum of 5 files at a time.</div>}
+          <div>
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext items={uploadedFiles.map((file) => file.name)}>
+                {uploadedFiles.map((file) => (
+                  <SortableItem key={file.name} id={file.name}>
+                    <div
+                      style={{
+                        padding: '10px',
+                        margin: '5px 0',
+                        border: '1px solid #ccc',
+                        borderRadius: '4px',
+                        background: '#f9f9f9',
+                        display: 'flex',
+                        justifyContent: 'space-between'
+                      }}
+                    >
+                      {file.name}
+                      <button onClick={() => handleDelete(file.name)} style={{ marginLeft: '10px', cursor: 'pointer' }}>
+                        ❌
+                      </button>
+                    </div>
+                  </SortableItem>
+                ))}
+              </SortableContext>
+            </DndContext>
+          </div>
+          {uploadedFiles.length > 0 && (
+            <form onSubmit={handleSubmit}>
+              <button type='submit' disabled={isMerging}>
+                {isMerging ? "Merging..." : "Merge PDFs"}
+              </button>
+            </form>
+          )}
+        </>
       )}
     </div>
   )
