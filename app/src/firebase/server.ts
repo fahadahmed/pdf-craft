@@ -8,7 +8,10 @@ const activeApps = getApps();
 const initApp = () => {
   return initializeApp({
     credential: admin.credential.cert(serviceAccount as ServiceAccount),
+    storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
   });
 };
 
-export const app = activeApps.length > 0 ? activeApps[0] : initApp();
+const app = activeApps.length > 0 ? activeApps[0] : initApp();
+
+export { admin, app };
