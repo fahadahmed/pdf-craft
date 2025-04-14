@@ -8,7 +8,4 @@ export default defineConfig({
   adapter: node({
     mode: 'middleware',
   }),
-  server: {
-    envPrefix: 'PUBLIC_',
-  },
 });
