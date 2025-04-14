@@ -24,24 +24,6 @@
       "region": "us-central1"
     }
   },
-<<<<<<< HEAD
-=======
-  "emulators": {
-    "functions": {
-      "port": 5001
-    },
-    "hosting": {
-      "port": 5010
-    },
-    "pubsub": {
-      "port": 8085
-    },
-    "ui": {
-      "enabled": true
-    },
-    "singleProjectMode": true
-  },
->>>>>>> main
   "storage": {
     "rules": "storage.rules"
   }
