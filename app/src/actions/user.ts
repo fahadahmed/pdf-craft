@@ -75,8 +75,6 @@ export const user = {
       const { idToken } = input;
       const auth = getAuth(app);
       try {
-        const decodedToken = await auth.verifyIdToken(idToken);
-        console.log(decodedToken);
         try {
           await auth.verifyIdToken(idToken);
         } catch (error) {
