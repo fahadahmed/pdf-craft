@@ -1,6 +1,6 @@
 {
   "name": "pdf-craft",
-  "version": "0.0.6",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,9 +9,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "pnpm": {
-    "overrides": {
-      "@google-cloud/storage": "7.14.0"
-    }
-  }
+  "packageManager": "pnpm@10.5.2"
 }

@@ -1,24 +1,11 @@
 ---
-console.log('This runs in your terminal, not the browser')
-import Layout from "../layouts/Layout.astro"
-import { Button } from "../components";
----
-<Layout>
-  <div class="container">
-    <h1>PDF Craft</h1>
-    <h2>A complete online PDF management tool</h2>
-    <div class="button-container">
-      <Button type="linkButton" text="Sign-in" url="/signin" />
-      <Button type="linkButton" text="Sign-up" url="/signup" />
-    </div>
-  </div>
-</Layout>
+import Welcome from '../components/Welcome.astro';
+import Layout from '../layouts/Layout.astro';
 
-<style>
-  .button-container {
-    margin: 2em 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-  }
-</style>
+// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
+// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+---
+
+<Layout>
+	<Welcome />
+</Layout>
