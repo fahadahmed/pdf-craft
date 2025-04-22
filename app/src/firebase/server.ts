@@ -1,17 +1,32 @@
-import { initializeApp, getApps } from 'firebase-admin/app';
-import admin from 'firebase-admin';
+import {
+  getApps,
+  initializeApp,
+  cert,
+  applicationDefault,
+} from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
 import type { ServiceAccount } from 'firebase-admin';
-import serviceAccount from '../serviceAccountKey.json' assert { type: 'json' };
 
-const activeApps = getApps();
+let _app: ReturnType<typeof initializeApp> | undefined;
+let _auth: ReturnType<typeof getAuth> | undefined;
 
-const initApp = () => {
-  return initializeApp({
-    credential: admin.credential.cert(serviceAccount as ServiceAccount),
-    storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
-  });
-};
+export function getFirebaseApp() {
+  if (!_app) {
+    const isProd = process.env.NODE_ENV === 'production';
 
-const app = activeApps.length > 0 ? activeApps[0] : initApp();
+    _app = initializeApp({
+      credential: isProd
+        ? applicationDefault()
+        : cert(require('../serviceAccountKey.json') as ServiceAccount),
+      storageBucket: process.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+    });
+  }
+  return _app;
+}
 
-export { admin, app };
+export function getFirebaseAuth() {
+  if (!_auth) {
+    _auth = getAuth(getFirebaseApp());
+  }
+  return _auth;
+}
