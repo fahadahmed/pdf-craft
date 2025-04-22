@@ -1,10 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro"
-import { getAuth } from 'firebase-admin/auth'
-import { app } from '../firebase/server'
 import { SigninForm } from '../components'
+import { getFirebaseAuth } from '../firebase/server';
 
-const auth = getAuth(app)
+const auth = getFirebaseAuth();
+
 if (Astro.cookies.has('__session')) {
   const sessionCookie = Astro.cookies.get('__session')?.value
   let decodedCookie

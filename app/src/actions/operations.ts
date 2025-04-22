@@ -1,11 +1,11 @@
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 import { PDFDocument } from 'pdf-lib';
-import { getAuth } from 'firebase-admin/auth';
-import { getFirestore, FieldValue } from 'firebase-admin/firestore';
-import { admin } from '../firebase/server';
+import { FieldValue } from 'firebase-admin/firestore';
+import admin from 'firebase-admin';
+import { getFirebaseAuth } from '../firebase/server';
 
-const auth = getAuth();
+const auth = getFirebaseAuth();
 const firestore = admin.firestore();
 const bucket = admin.storage().bucket();
 
