@@ -19,8 +19,9 @@ export async function getFirebaseApp() {
       const credential = isProd
         ? applicationDefault()
         : cert(
-            (await import('../serviceAccountKey.json'))
-              .default as ServiceAccount
+            JSON.parse(
+              import.meta.env.PUBLIC_FIREBASE_SERVICEACCOUNT_KEY
+            ) as ServiceAccount
           );
 
       _app = initializeApp({
