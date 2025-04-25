@@ -27,12 +27,20 @@ jobs:
           echo PUBLIC_FIREBASE_MESSENGER_ID="${{ secrets.PUBLIC_FIREBASE_MESSENGER_ID_MVP }}" >> .env
           echo PUBLIC_FIREBASE_APP_ID="${{ secrets.PUBLIC_FIREBASE_APP_ID_MVP }}" >> .env
           echo PUBLIC_FIREBASE_MEASUREMENT_ID="${{ secrets.PUBLIC_FIREBASE_MEASUREMENT_ID_MVP }}" >> .env
-
-      - name: Validate serviceAccountKey secret
+      - name: Create Dummy serviceAccountKey.json
         run: |
-          echo "${{ secrets.FIREBASE_SERVICEACCOUNT_KEY_MVP }}" | base64 -d || echo "Invalid base64 input"
-      - name: Create serviceAccountKey.json
-        run: echo "${{ secrets.FIREBASE_SERVICEACCOUNT_KEY_MVP }}" | base64 -d > src/serviceAccountKey.json
+          echo '{
+            "type": "service_account",
+            "project_id": "dummy-project",
+            "private_key_id": "dummy-private-key-id",
+            "private_key": "-----BEGIN PRIVATE KEY-----\nDUMMY_PRIVATE_KEY\n-----END PRIVATE KEY-----\n",
+            "client_email": "dummy-email@dummy-project.iam.gserviceaccount.com",
+            "client_id": "dummy-client-id",
+            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+            "token_uri": "https://oauth2.googleapis.com/token",
+            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+            "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dummy-email%40dummy-project.iam.gserviceaccount.com"
+          }' > src/serviceAccountKey.json
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
