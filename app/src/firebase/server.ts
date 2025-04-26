@@ -14,8 +14,6 @@ export async function getFirebaseApp() {
   const isProd = import.meta.env.NODE_ENV === 'production';
   const storageBucket = import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET;
 
-  console.log(isProd, import.meta.env.PUBLIC_FIREBASE_SERVICEACCOUNT_KEY);
-
   if (!_app) {
     if (getApps().length === 0) {
       const credential = isProd
@@ -25,8 +23,6 @@ export async function getFirebaseApp() {
               import.meta.env.PUBLIC_FIREBASE_SERVICEACCOUNT_KEY
             ) as ServiceAccount
           );
-
-      // const credential = applicationDefault();
 
       _app = initializeApp({
         credential,
