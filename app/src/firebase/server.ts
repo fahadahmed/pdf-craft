@@ -10,23 +10,35 @@ import type { ServiceAccount } from 'firebase-admin';
 let _app: ReturnType<typeof initializeApp> | undefined;
 let _auth: ReturnType<typeof getAuth> | undefined;
 
-export function getFirebaseApp() {
-  if (!_app) {
-    const isProd = process.env.NODE_ENV === 'production';
+export async function getFirebaseApp() {
+  const isProd = import.meta.env.NODE_ENV === 'production';
+  const storageBucket = import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET;
 
-    _app = initializeApp({
-      credential: isProd
+  if (!_app) {
+    if (getApps().length === 0) {
+      const credential = isProd
         ? applicationDefault()
-        : cert(require('../serviceAccountKey.json') as ServiceAccount),
-      storageBucket: process.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
-    });
+        : cert(
+            JSON.parse(
+              import.meta.env.PUBLIC_FIREBASE_SERVICEACCOUNT_KEY
+            ) as ServiceAccount
+          );
+
+      _app = initializeApp({
+        credential,
+        storageBucket,
+      });
+    } else {
+      _app = getApps()[0];
+    }
   }
+
   return _app;
 }
 
-export function getFirebaseAuth() {
+export async function getFirebaseAuth() {
   if (!_auth) {
-    _auth = getAuth(getFirebaseApp());
+    _auth = getAuth(await getFirebaseApp());
   }
   return _auth;
 }

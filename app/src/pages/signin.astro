@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro"
 import { SigninForm } from '../components'
 import { getFirebaseAuth } from '../firebase/server';
 
-const auth = getFirebaseAuth();
+const auth = await getFirebaseAuth();
 
 if (Astro.cookies.has('__session')) {
   const sessionCookie = Astro.cookies.get('__session')?.value

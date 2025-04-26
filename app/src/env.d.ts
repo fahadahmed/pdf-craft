@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_FIREBASE_APP_ID: string;
   readonly PUBLIC_FIREBASE_MEASUREMENT_ID: string;
   readonly PUBLIC_FB_FUNC_MERGE_PDFS_URL: string;
+  readonly PUBLIC_FIREBASE_SERVICEACCOUNT_KEY: string;
 }
 
 interface ImportMeta {
