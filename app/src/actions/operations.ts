@@ -5,7 +5,7 @@ import { FieldValue } from 'firebase-admin/firestore';
 import admin from 'firebase-admin';
 import { getFirebaseAuth } from '../firebase/server';
 
-const auth = getFirebaseAuth();
+const auth = await getFirebaseAuth();
 const firestore = admin.firestore();
 const bucket = admin.storage().bucket();
 
