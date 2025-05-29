@@ -3,8 +3,9 @@ import { z } from 'astro:schema';
 import { PDFDocument } from 'pdf-lib';
 import { FieldValue } from 'firebase-admin/firestore';
 import admin from 'firebase-admin';
-import { getFirebaseAuth } from '../firebase/server';
+import { getFirebaseAuth, getFirebaseApp } from '../firebase/server';
 
+getFirebaseApp();
 const firestore = admin.firestore();
 const bucket = admin.storage().bucket();
 
