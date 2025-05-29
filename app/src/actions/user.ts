@@ -3,8 +3,6 @@ import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 import { getFirebaseAuth } from '../firebase/server';
 
-const auth = await getFirebaseAuth();
-
 const SignUpSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
@@ -22,6 +20,7 @@ export const user = {
     handler: async (input, _ctx) => {
       const { name, email, password } = input;
       try {
+        const auth = await getFirebaseAuth();
         const userRecord = await auth.createUser({
           email: email,
           password: password,
@@ -73,6 +72,7 @@ export const user = {
     input: VerifyUserSchema,
     handler: async (input, context) => {
       const { idToken } = input;
+      const auth = await getFirebaseAuth();
       try {
         try {
           await auth.verifyIdToken(idToken);
@@ -111,6 +111,7 @@ export const user = {
   signOutUser: defineAction({
     accept: 'form',
     handler: async (_input, context) => {
+      const auth = await getFirebaseAuth();
       context.cookies.delete('__session');
       return {
         success: true,
