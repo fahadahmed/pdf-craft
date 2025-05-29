@@ -77,7 +77,11 @@ export const user = {
         try {
           await auth.verifyIdToken(idToken);
         } catch (error) {
-          return new Response('Invalid Token', { status: 401 });
+          return {
+            success: false,
+            error: 'Invalid Token',
+            status: 401,
+          };
         }
         // Create and set session cookie
         const fiveDays = 60 * 60 * 24 * 5 * 1000;

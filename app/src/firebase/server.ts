@@ -18,14 +18,14 @@ export async function getFirebaseApp() {
 
   if (!_app) {
     if (getApps().length === 0) {
-      // const credential = isProd
-      //   ? applicationDefault()
-      //   : cert(
-      //       JSON.parse(
-      //         import.meta.env.PUBLIC_FIREBASE_SERVICEACCOUNT_KEY
-      //       ) as ServiceAccount
-      //     );
-      const credential = applicationDefault();
+      const credential = isProd
+        ? applicationDefault()
+        : cert(
+            JSON.parse(
+              import.meta.env.PUBLIC_FIREBASE_SERVICEACCOUNT_KEY
+            ) as ServiceAccount
+          );
+      // const credential = applicationDefault();
       _app = initializeApp({
         credential,
         storageBucket,
