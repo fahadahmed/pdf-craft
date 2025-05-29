@@ -10,10 +10,14 @@ export default function UserFileList() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const filesRef = collection(db, 'users', user.uid, 'files');
-        const snapshot = await getDocs(filesRef);
-        console.log('Files:', snapshot.docs);
-        setFiles(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })))
+        try {
+          const filesRef = collection(db, 'users', user.uid, 'files');
+          const snapshot = await getDocs(filesRef);
+          setFiles(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })))
+        } catch (error) {
+          console.error('Error fetching files:', error);
+          setFiles([]);
+        }
       }
       setLoading(false);
     })
