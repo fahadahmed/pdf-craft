@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
-import { getFirebaseAuth } from '../firebase/server';
+import { getFirebaseAuth, getFirebaseApp } from '../firebase/server';
+
+getFirebaseApp();
 
 const SignUpSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
