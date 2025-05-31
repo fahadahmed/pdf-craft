@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { actions } from 'astro:actions'
-import { inMemoryPersistence, signInWithEmailAndPassword } from 'firebase/auth'
+import { browserLocalPersistence, signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../../firebase/client'
 import { Button, Input } from '../../../components'
 import '../../../styles/form.css'
@@ -15,7 +15,7 @@ export default function SigninForm() {
     e.preventDefault()
 
     try {
-      await auth.setPersistence(inMemoryPersistence)
+      await auth.setPersistence(browserLocalPersistence)
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
       const idToken = await userCredential.user.getIdToken()
       console.log(idToken)

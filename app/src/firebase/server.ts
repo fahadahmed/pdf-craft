@@ -10,32 +10,54 @@ import type { ServiceAccount } from 'firebase-admin';
 let _app: ReturnType<typeof initializeApp> | undefined;
 let _auth: ReturnType<typeof getAuth> | undefined;
 
-export async function getFirebaseApp() {
+export async function initializeFirebaseAdminApp() {
   const isProd = import.meta.env.NODE_ENV === 'production';
   const storageBucket = import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET;
-
+  console.log(`[Firebase Admin Init] Starting initialization...`);
+  console.log(
+    `[Firebase Admin Init] import.meta.env.NODE_ENV: "${
+      import.meta.env.NODE_ENV
+    }"`
+  );
+  console.log(`[Firebase Admin Init] Determined isProd: ${isProd}`);
+  console.log(
+    `[Firebase Admin Init] PUBLIC_FIREBASE_STORAGE_BUCKET: "${storageBucket}"`
+  );
   console.log(isProd);
 
   if (!_app) {
     if (getApps().length === 0) {
-      // const credential = isProd
-      //   ? applicationDefault()
-      //   : cert(
-      //       JSON.parse(
-      //         import.meta.env.PUBLIC_FIREBASE_SERVICEACCOUNT_KEY
-      //       ) as ServiceAccount
-      //     );
-      const credential = applicationDefault();
+      const credential = isProd
+        ? applicationDefault()
+        : cert(
+            JSON.parse(
+              import.meta.env.PUBLIC_FIREBASE_SERVICEACCOUNT_KEY
+            ) as ServiceAccount
+          );
+      // const credential = applicationDefault();
       _app = initializeApp({
         credential,
         storageBucket,
       });
+      console.log('Firebase admin SDK successfully initialised');
     } else {
       _app = getApps()[0];
+      console.log('Firebase admin SDK already initialised');
     }
   }
 
   return _app;
+}
+
+initializeFirebaseAdminApp().catch((error) => {
+  console.error('Error initializing Firebase Admin SDK:', error);
+});
+
+export async function getFirebaseApp() {
+  if (!_app) {
+    await initializeFirebaseAdminApp();
+  }
+  return _app!;
 }
 
 export async function getFirebaseAuth() {

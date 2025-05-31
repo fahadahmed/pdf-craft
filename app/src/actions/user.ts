@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
-import { getFirebaseAuth } from '../firebase/server';
+import { getFirebaseAuth, getFirebaseApp } from '../firebase/server';
 
-const auth = await getFirebaseAuth();
+getFirebaseApp();
 
 const SignUpSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -22,6 +22,7 @@ export const user = {
     handler: async (input, _ctx) => {
       const { name, email, password } = input;
       try {
+        const auth = await getFirebaseAuth();
         const userRecord = await auth.createUser({
           email: email,
           password: password,
@@ -73,11 +74,16 @@ export const user = {
     input: VerifyUserSchema,
     handler: async (input, context) => {
       const { idToken } = input;
+      const auth = await getFirebaseAuth();
       try {
         try {
           await auth.verifyIdToken(idToken);
         } catch (error) {
-          return new Response('Invalid Token', { status: 401 });
+          return {
+            success: false,
+            error: 'Invalid Token',
+            status: 401,
+          };
         }
         // Create and set session cookie
         const fiveDays = 60 * 60 * 24 * 5 * 1000;
@@ -107,6 +113,7 @@ export const user = {
   signOutUser: defineAction({
     accept: 'form',
     handler: async (_input, context) => {
+      const auth = await getFirebaseAuth();
       context.cookies.delete('__session');
       return {
         success: true,

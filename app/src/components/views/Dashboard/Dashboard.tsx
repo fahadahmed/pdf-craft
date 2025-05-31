@@ -1,4 +1,6 @@
+'use client';
 import './dashboard.css'
+import { UserFileList } from '../../slices';
 
 export default function Dashboard() {
   return (
@@ -15,9 +17,7 @@ export default function Dashboard() {
           <div>Sign PDF</div>
         </div>
       </div>
-      <div>
-        <h2>Your recent files</h2>
-      </div>
+      <UserFileList />
     </div>
   )
 }

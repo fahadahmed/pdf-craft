@@ -3,9 +3,9 @@ import { z } from 'astro:schema';
 import { PDFDocument } from 'pdf-lib';
 import { FieldValue } from 'firebase-admin/firestore';
 import admin from 'firebase-admin';
-import { getFirebaseAuth } from '../firebase/server';
+import { getFirebaseAuth, getFirebaseApp } from '../firebase/server';
 
-const auth = await getFirebaseAuth();
+getFirebaseApp();
 const firestore = admin.firestore();
 const bucket = admin.storage().bucket();
 
@@ -29,7 +29,7 @@ export const operations = {
         if (!sessionCookie) {
           throw new Error('Unauthorized');
         }
-
+        const auth = await getFirebaseAuth();
         const decodedToken = await auth.verifySessionCookie(
           sessionCookie,
           true

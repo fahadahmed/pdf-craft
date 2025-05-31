@@ -8,5 +8,5 @@ if (!Astro.cookies.has('__session')) {
 ---
 
 <AuthenticatedLayout>
-  <DashboardView />
+  <DashboardView client:load />
 </AuthenticatedLayout>
