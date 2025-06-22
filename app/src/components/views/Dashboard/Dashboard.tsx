@@ -6,6 +6,13 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { UserFileList } from '../../slices';
 
+const tasks = [
+  { name: 'Merge PDFs', link: '/mergepdf' },
+  { name: 'Split PDF', link: '/splitpdf' },
+  { name: 'Encrypt PDF', link: '/encryptpdf' },
+  { name: 'Decrypt PDF', link: '/decryptpdf' },
+];
+
 export default function Dashboard() {
   const [files, setFiles] = useState<any[]>([]);
   const [profile, setProfile] = useState<{ name?: string; credits?: number; isSubscriber?: boolean }>({});
@@ -43,23 +50,22 @@ export default function Dashboard() {
         <div>
           <h1>Welcome, {profile.name ? `${profile.name}` : ''}</h1>
           <p>Manage your PDF files and operations here.</p>
+        </div>
+        <div>
           {profile.credits !== undefined && (
             <p><strong>Available Credits:</strong> {profile.credits}</p>
           )}
-        </div>
-        <div>
           <button>Buy Credits</button>
         </div>
       </div>
       <div>
         <h2>Tasks</h2>
         <div className="task-container">
-          <div className="task-tile"><a href="/mergepdf">Merge PDFs</a></div>
-          <div className="task-tile">Split PDF</div>
-          <div className="task-tile">Annotate PDF</div>
-          <div className="task-tile">Sign PDF</div>
-          <div className="task-tile">Encrypt PDF</div>
-          <div className="task-tile">Decrypt PDF</div>
+          {tasks.map((task) => (
+            <div key={task.name} className="task-tile">
+              <a href={task.link}><strong>{task.name}</strong></a>
+            </div>
+          ))}
         </div>
       </div>
       <div>
