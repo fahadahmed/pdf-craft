@@ -72,7 +72,6 @@ export async function getFirebaseAuth() {
 export async function getFirebaseFirestore() {
   if (!_db) {
     _db = getFirestore(await getFirebaseApp());
-    console.log('Firestore initialized', _db);
   }
   return _db;
 }

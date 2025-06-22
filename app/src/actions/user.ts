@@ -34,8 +34,6 @@ export const user = {
           displayName: name,
         });
 
-        console.log('User created successfully:', userRecord);
-
         // 2. Create user profile inside 'profile' field
         const userRef = firestore.collection('users').doc(userRecord.uid);
         await userRef.set({
