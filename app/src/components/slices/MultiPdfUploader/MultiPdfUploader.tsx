@@ -84,6 +84,7 @@ export default function MultiPdfUploader() {
       {downloadLink ? (
         <div>
           <a href={downloadLink} download>Download Merged PDF</a>
+          <a href="/dashboard">Back to Dashboard</a>
         </div>
       ) : (
         <>
