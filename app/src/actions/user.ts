@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
-import { getFirebaseAuth, getFirebaseApp } from '../firebase/server';
+import {
+  getFirebaseAuth,
+  getFirebaseApp,
+  getFirebaseFirestore,
+} from '../firebase/server';
 
 getFirebaseApp();
 
@@ -23,11 +27,25 @@ export const user = {
       const { name, email, password } = input;
       try {
         const auth = await getFirebaseAuth();
+        const firestore = await getFirebaseFirestore();
         const userRecord = await auth.createUser({
           email: email,
           password: password,
           displayName: name,
         });
+
+        console.log('User created successfully:', userRecord);
+
+        // 2. Create user profile inside 'profile' field
+        const userRef = firestore.collection('users').doc(userRecord.uid);
+        await userRef.set({
+          profile: {
+            name,
+            isSubscriber: false,
+            credits: 0,
+          },
+        });
+
         return {
           success: true,
           payload: {

@@ -5,10 +5,12 @@ import {
   applicationDefault,
 } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
+import { getFirestore } from 'firebase-admin/firestore';
 import type { ServiceAccount } from 'firebase-admin';
 
 let _app: ReturnType<typeof initializeApp> | undefined;
 let _auth: ReturnType<typeof getAuth> | undefined;
+let _db: ReturnType<typeof getFirestore> | undefined;
 
 export async function initializeFirebaseAdminApp() {
   const isProd = import.meta.env.NODE_ENV === 'production';
@@ -65,4 +67,12 @@ export async function getFirebaseAuth() {
     _auth = getAuth(await getFirebaseApp());
   }
   return _auth;
+}
+
+export async function getFirebaseFirestore() {
+  if (!_db) {
+    _db = getFirestore(await getFirebaseApp());
+    console.log('Firestore initialized', _db);
+  }
+  return _db;
 }
