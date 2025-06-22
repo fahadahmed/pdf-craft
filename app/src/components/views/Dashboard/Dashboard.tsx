@@ -1,23 +1,74 @@
 'use client';
 import './dashboard.css'
+import { useEffect, useState } from 'react';
+import { db, auth } from '../../../firebase/client';
+import { onAuthStateChanged } from 'firebase/auth';
+import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { UserFileList } from '../../slices';
 
 export default function Dashboard() {
+  const [files, setFiles] = useState<any[]>([]);
+  const [profile, setProfile] = useState<{ name?: string; credits?: number; isSubscriber?: boolean }>({});
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const filesRef = collection(db, 'users', user.uid, 'files');
+          const snapshot = await getDocs(filesRef);
+          setFiles(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+
+          // Fetch profile
+          const profileRef = doc(db, 'users', user.uid);
+          const profileSnap = await getDoc(profileRef);
+          if (profileSnap.exists()) {
+            const data = profileSnap.data();
+            if (data.profile) {
+              setProfile(data.profile);
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching files:', error);
+          setFiles([]);
+        }
+      }
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
   return (
     <div className="dashboard-container">
-      <h1>Welcome to the Dashboard!</h1>
+      <div className="dashboard-header">
+        <div>
+          <h1>Welcome, {profile.name ? `${profile.name}` : ''}</h1>
+          <p>Manage your PDF files and operations here.</p>
+          {profile.credits !== undefined && (
+            <p><strong>Available Credits:</strong> {profile.credits}</p>
+          )}
+        </div>
+        <div>
+          <button>Buy Credits</button>
+        </div>
+      </div>
       <div>
         <h2>Tasks</h2>
         <div className="task-container">
           <div className="task-tile"><a href="/mergepdf">Merge PDFs</a></div>
           <div className="task-tile">Split PDF</div>
-          <div className="task-tile">Convert to PDF</div>
-          <div className="task-tile">Convert from PDF</div>
-          <div className="task-tile">Edit PDF</div>
+          <div className="task-tile">Annotate PDF</div>
           <div className="task-tile">Sign PDF</div>
+          <div className="task-tile">Encrypt PDF</div>
+          <div className="task-tile">Decrypt PDF</div>
         </div>
       </div>
-      <UserFileList />
+      <div>
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <UserFileList files={files} />
+        )}
+      </div>
     </div>
   )
 }

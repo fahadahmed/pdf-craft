@@ -1,6 +1,13 @@
 .dashboard-container {
   display: grid;
-  grid-template-rows: 1fr 3fr 8fr;
+  grid-template-rows: 2fr 2fr 8fr;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
 }
 
 .task-container {

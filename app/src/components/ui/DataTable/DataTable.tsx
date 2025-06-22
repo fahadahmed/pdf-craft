@@ -12,6 +12,10 @@ export interface DataTableProps {
 }
 
 export default function DataTable({ headers, data }: DataTableProps) {
+  if (data.length === 0) {
+    return <div className="data-table-empty">No data available</div>;
+  }
+
   return (
     <table className="data-table">
       <thead>
