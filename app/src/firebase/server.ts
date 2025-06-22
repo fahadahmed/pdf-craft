@@ -15,18 +15,6 @@ let _db: ReturnType<typeof getFirestore> | undefined;
 export async function initializeFirebaseAdminApp() {
   const isProd = import.meta.env.NODE_ENV === 'production';
   const storageBucket = import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET;
-  console.log(`[Firebase Admin Init] Starting initialization...`);
-  console.log(
-    `[Firebase Admin Init] import.meta.env.NODE_ENV: "${
-      import.meta.env.NODE_ENV
-    }"`
-  );
-  console.log(`[Firebase Admin Init] Determined isProd: ${isProd}`);
-  console.log(
-    `[Firebase Admin Init] PUBLIC_FIREBASE_STORAGE_BUCKET: "${storageBucket}"`
-  );
-  console.log(isProd);
-
   if (!_app) {
     if (getApps().length === 0) {
       const credential = isProd
@@ -41,10 +29,8 @@ export async function initializeFirebaseAdminApp() {
         credential,
         storageBucket,
       });
-      console.log('Firebase admin SDK successfully initialised');
     } else {
       _app = getApps()[0];
-      console.log('Firebase admin SDK already initialised');
     }
   }
 
