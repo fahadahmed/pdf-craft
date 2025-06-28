@@ -30,6 +30,7 @@ export default function MultiPdfUploader() {
   const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
   const [isMerging, setIsMerging] = useState(false);
   const [downloadLink, setDownloadLink] = useState<string | null>(null);
+  const [buttonLabel, setButtonLabel] = useState('Merge PDFs');
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -59,25 +60,41 @@ export default function MultiPdfUploader() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const task = 'merge';
+    setButtonLabel('Checking credits...');
     setIsMerging(true);
-    const formData = new FormData();
-    uploadedFiles.forEach((file) => {
-      formData.append('files', file);
+    const response = await actions.credits.checkCredits({
+      task
     });
+    console.log('Check Credits response:', response);
+    if (response.data?.success) {
+      setIsMerging(true);
+      setButtonLabel('Merging PDFs...');
+      const formData = new FormData();
+      uploadedFiles.forEach((file) => {
+        formData.append('files', file);
+      });
 
-    try {
-      console.log(Array.from(formData.values()))
-      const response = await actions.operations.mergePdfs(formData)
-      console.log(response)
-      if (response.data) {
-        console.log('Merge PDF operations response', response.data)
-        setDownloadLink(response.data.data.fileUrl);
+      try {
+        console.log(Array.from(formData.values()))
+        const response = await actions.operations.mergePdfs(formData)
+        console.log(response)
+        if (response.data) {
+          console.log('Merge PDF operations response', response.data)
+          setDownloadLink(response.data.data.fileUrl);
+        }
+      } catch (err) {
+        console.error('Error merging PDFs:', err);
+      } finally {
+        setButtonLabel('Merge PDFs');
+        setIsMerging(false);
       }
-    } catch (err) {
-      console.error('Error merging PDFs:', err);
-    } finally {
+    } else {
+      alert(`Insufficient credits for ${task}. Please buy more credits.`);
+      setButtonLabel('Merge PDFs');
       setIsMerging(false);
     }
+
   }
   return (
     <div className="multi-pdf-uploader">
@@ -88,6 +105,7 @@ export default function MultiPdfUploader() {
         </div>
       ) : (
         <>
+          <a href="/dashboard" className="back-to-dashboard">Back to Dashboard</a>
           {uploadedFiles.length < 5 ? (
             <div {...getRootProps()} className="dropzone-container">
               <input {...getInputProps()} />
@@ -127,7 +145,7 @@ export default function MultiPdfUploader() {
           {uploadedFiles.length > 0 && (
             <form onSubmit={handleSubmit}>
               <button type='submit' disabled={isMerging}>
-                {isMerging ? "Merging..." : "Merge PDFs"}
+                {buttonLabel}
               </button>
             </form>
           )}

@@ -5,6 +5,7 @@ import { db, auth } from '../../../firebase/client';
 import { onAuthStateChanged } from 'firebase/auth';
 import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import { UserFileList } from '../../slices';
+import { actions } from 'astro:actions';
 
 const tasks = [
   { name: 'Merge PDFs', link: '/mergepdf' },
@@ -17,6 +18,7 @@ export default function Dashboard() {
   const [files, setFiles] = useState<any[]>([]);
   const [profile, setProfile] = useState<{ name?: string; credits?: number; isSubscriber?: boolean }>({});
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -44,6 +46,14 @@ export default function Dashboard() {
     return () => unsubscribe();
   }, []);
 
+  const handleBuyCredits = async () => {
+    const formData = new FormData();
+    formData.append('action', 'buyCredits');
+    const response = await actions.credits.getUserCredits(formData);
+
+    console.log('Buy Credits clicked, response:', response);
+  }
+
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
@@ -55,7 +65,7 @@ export default function Dashboard() {
           {profile.credits !== undefined && (
             <p><strong>Available Credits:</strong> {profile.credits}</p>
           )}
-          <button>Buy Credits</button>
+          <button onClick={handleBuyCredits}>Buy Credits</button>
         </div>
       </div>
       <div>

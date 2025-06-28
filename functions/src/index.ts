@@ -7,6 +7,6 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
-import { mergePdfs } from './operations';
+import { fetchCredits } from './operations';
 
-export { mergePdfs };
+export { fetchCredits };
