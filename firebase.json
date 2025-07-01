@@ -32,5 +32,14 @@
   },
   "storage": {
     "rules": "storage.rules"
+  },
+  "emulators": {
+    "functions": {
+      "port": 5010
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true
   }
 }

@@ -1,1 +1,1 @@
-export * from './mergePdfs';
+export * from './credits';

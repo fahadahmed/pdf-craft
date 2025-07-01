@@ -80,6 +80,7 @@ export const operations = {
             fileId,
             fileName: mergedFileName,
             fileUrl: url,
+            operation: 'merge',
             createdAt: FieldValue.serverTimestamp(),
             updatedAt: FieldValue.serverTimestamp(),
           });
