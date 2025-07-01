@@ -4,7 +4,7 @@ interface UserFileListProps {
   files?: any[];
 }
 
-export default function UserFileList({ files }: UserFileListProps) {
+export default function UserFileList({ files = [] }: UserFileListProps) {
 
   const tableHeaders: TableHeader[] = [
     { label: 'File Name', key: 'fileName' },

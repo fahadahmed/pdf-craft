@@ -10,7 +10,6 @@ import serviceAccount from '../serviceAccountKey.json';
 
 const corsHandler = cors({ origin: true });
 
-// TODO: Implement conditional production check for service account.
 if (admin.apps.length === 0) {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount as ServiceAccount),

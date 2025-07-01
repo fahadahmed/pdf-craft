@@ -68,7 +68,6 @@ export default function MultiPdfUploader() {
     });
     console.log('Check Credits response:', response);
     if (response.data?.success) {
-      setIsMerging(true);
       setButtonLabel('Merging PDFs...');
       const formData = new FormData();
       uploadedFiles.forEach((file) => {

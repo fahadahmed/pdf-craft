@@ -20,8 +20,8 @@ export default function DataTable({ headers, data }: DataTableProps) {
     <table className="data-table">
       <thead>
         <tr>
-          {headers.map((header, index) => (
-            <th key={index} className="data-table-header">
+          {headers.map((header) => (
+            <th key={header.key} className="data-table-header">
               {header.label}
             </th>
           ))}
