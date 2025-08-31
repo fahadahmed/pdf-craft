@@ -15,11 +15,9 @@ export default function SigninForm() {
     e.preventDefault()
 
     try {
-      await auth.setPersistence(browserLocalPersistence)
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
       const idToken = await userCredential.user.getIdToken()
       console.log(idToken)
-      sessionStorage.setItem("idToken", idToken);
       const formData = new FormData()
       formData.append('idToken', idToken)
       const response = await actions.user.verifyUser(formData)
