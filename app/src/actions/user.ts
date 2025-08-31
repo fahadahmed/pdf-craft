@@ -115,8 +115,12 @@ export const user = {
           maxAge: fiveDays,
         });
       } catch (error) {
-        if (error instanceof z.ZodError) {
-        }
+        console.error('Error verifying user:', error);
+        return {
+          success: false,
+          error: 'Failed to verify user',
+          status: 500,
+        };
       }
       return {
         success: true,

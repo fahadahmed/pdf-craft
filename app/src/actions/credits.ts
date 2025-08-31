@@ -127,4 +127,54 @@ export const credits = {
       }
     },
   }),
+  buyCredits: defineAction({
+    accept: 'form',
+    input: z.object({
+      credits: z.coerce.number(),
+    }),
+    handler: async (input, context) => {
+      const { credits } = input;
+      const cookieHeader = context.request.headers.get('cookie') || '';
+      const sessionCookie = cookieHeader
+        .split('; ')
+        .find((c) => c.startsWith('__session='))
+        ?.split('=')[1];
+
+      if (!sessionCookie) {
+        return {
+          success: false,
+          error: 'Unauthorized',
+        };
+      }
+
+      try {
+        const auth = await getFirebaseAuth();
+        const decodedToken = await auth.verifySessionCookie(
+          sessionCookie,
+          true
+        );
+        const userId = decodedToken.uid;
+
+        const userRef = firestore.collection('users').doc(userId);
+        // process payment logic here
+
+        await userRef.update({
+          'profile.credits': admin.firestore.FieldValue.increment(credits),
+        });
+
+        return {
+          success: true,
+          payload: {
+            message: `Successfully added ${credits} credits`,
+          },
+        };
+      } catch (error) {
+        console.error('Error buying credits:', error);
+        return {
+          success: false,
+          error: 'Failed to buy credits',
+        };
+      }
+    },
+  }),
 };

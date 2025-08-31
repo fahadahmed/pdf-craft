@@ -7,6 +7,6 @@
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
 
-import { fetchCredits } from './operations';
+import { processPayment, stripeWebhook } from './operations';
 
-export { fetchCredits };
+export { processPayment, stripeWebhook };

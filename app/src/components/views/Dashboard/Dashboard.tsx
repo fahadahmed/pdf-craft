@@ -48,8 +48,26 @@ export default function Dashboard() {
 
   const handleBuyCredits = async () => {
     const formData = new FormData();
-    formData.append('action', 'buyCredits');
-    const response = await actions.credits.getUserCredits(formData);
+    formData.append('credits', '5');
+    // first navigate to the payment page
+    const paymentResponse = await fetch('http://127.0.0.1:5010/pdf-craft-mvp/us-central1/processPayment', {
+      method: 'POST',
+      body: formData,
+    })
+    if (!paymentResponse.ok) {
+      console.error('Failed to initiate payment');
+      return;
+    }
+    const paymentData = await paymentResponse.json();
+    if (!paymentData.url) {
+      console.error('Payment URL not found in response');
+      return;
+    } else {
+      window.location.href = paymentData.url;
+    }
+
+    // then call the buyCredits action
+    const response = await actions.credits.buyCredits(formData);
 
     console.log('Buy Credits clicked, response:', response);
   }
