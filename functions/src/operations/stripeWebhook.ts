@@ -22,5 +22,25 @@ export const stripeWebhook = onRequest(
       response.status(400).send(`Webhook Error: ${err}`);
       return;
     }
+
+    if (event.type === 'checkout.session.completed') {
+      const session = event.data.object as Stripe.Checkout.Session;
+      const db = getFirestore();
+
+      if (session.metadata?.userId && session.metadata?.credits) {
+        const userRef = db.collection('users').doc(session.metadata.userId);
+        const userDoc = await userRef.get();
+
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+          const currentCredits = userData?.profile?.credits || 0;
+          const purchasedCredits = parseInt(session.metadata.credits, 10);
+          await userRef.update({
+            'profile.credits': currentCredits + purchasedCredits,
+            'profile.isSubscriber': true,
+          });
+        }
+      }
+    }
   }
 );
