@@ -33,6 +33,10 @@ export const processPayment = onRequest(async (request, response) => {
       ],
       success_url: 'http://localhost:4321/dashboard',
       cancel_url: 'http://localhost:4321/dashboard',
+      metadata: {
+        userId: 'fahad.ahmed@me.com',
+        credits: 5,
+      },
     });
 
     response.status(200).json({ url: session.url });
