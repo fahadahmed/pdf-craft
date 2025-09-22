@@ -6,13 +6,26 @@ import { getFirebaseAuth } from '../firebase/server';
 const auth = await getFirebaseAuth();
 
 if (Astro.cookies.has('__session')) {
-  const sessionCookie = Astro.cookies.get('__session')?.value
-  let decodedCookie
+  const sessionCookie = Astro.cookies.get('__session')?.value;
+
   if (sessionCookie) {
-    decodedCookie = await auth.verifySessionCookie(sessionCookie)
-  }
-  if (decodedCookie) {
-    return Astro.redirect('/dashboard')
+    try {
+      const decodedCookie = await auth.verifySessionCookie(sessionCookie, true);
+      console.log('Decoded session cookie:', decodedCookie);
+
+      if (decodedCookie) {
+        // valid session → redirect to dashboard
+        return Astro.redirect('/dashboard');
+      }
+    } catch (error: any) {
+      // Session cookie invalid/expired → delete it
+      Astro.cookies.delete('__session', {
+        path: '/',
+        httpOnly: true,
+        secure: import.meta.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+      });
+    }
   }
 }
 ---
